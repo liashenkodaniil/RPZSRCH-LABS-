@@ -1,0 +1,11 @@
+# Goal
+string[] data
+---
+# Result
+string[] processed
+bool success
+---
+# Feedback
+uint32 processed_count
+uint32 total
+string state
