@@ -1,0 +1,7 @@
+<library path="lab3_control">
+  <class name="lab3_control/SimJointHardware"
+         type="lab3_control::SimJointHardware"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>Симульований привід суглоба з обмеженням прискорення та затримками</description>
+  </class>
+</library>

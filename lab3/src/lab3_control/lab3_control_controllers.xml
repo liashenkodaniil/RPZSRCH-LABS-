@@ -1,0 +1,7 @@
+<library path="lab3_control">
+  <class name="lab3_control/PPositionController"
+         type="lab3_control::PPositionController"
+         base_class_type="controller_interface::ControllerInterface">
+    <description>П-регулятор положення з компенсацією затримки контуру</description>
+  </class>
+</library>

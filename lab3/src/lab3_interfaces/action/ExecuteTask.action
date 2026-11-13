@@ -1,0 +1,14 @@
+# Goal: одна "навичка" робота-прибиральника, яку виконує вузол-виконавець
+# task: check_bedding | restock_bedding | clean_stain | replace_linen |
+#       replace_blanket | report_issue
+string task
+string argument
+---
+# Result
+bool success
+string message
+string data
+---
+# Feedback
+float32 progress
+string status

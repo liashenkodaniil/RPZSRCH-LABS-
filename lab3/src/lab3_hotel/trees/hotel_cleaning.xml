@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Дерево поведінки робота прибирання номера готелю (BehaviorTree.CPP v4) -->
+<root BTCPP_format="4" main_tree_to_execute="CleanRoom">
+
+  <!-- Головне дерево: послідовність незалежних піддерев -->
+  <BehaviorTree ID="CleanRoom">
+    <Sequence name="clean_room">
+      <SubTree ID="PrepareBedding"/>
+      <SubTree ID="RemoveStains"/>
+      <ExecuteTask name="replace_linen" task="replace_linen" argument=""/>
+      <SubTree ID="ReplaceBlanket" season="{season}"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Перевірка подушок/простирадл; якщо чогось бракує, поповнюємо.
+       Перелік відсутніх предметів передається через Blackboard {missing_items} -->
+  <BehaviorTree ID="PrepareBedding">
+    <Fallback name="bedding_complete">
+      <ExecuteTask name="check_bedding" task="check_bedding" argument=""
+                   result_data="{missing_items}"/>
+      <ExecuteTask name="restock_bedding" task="restock_bedding"
+                   argument="{missing_items}"/>
+    </Fallback>
+  </BehaviorTree>
+
+  <!-- Чищення плям: до 3 спроб; якщо не вдалося, повідомляємо персонал
+       і завершуємо місію з FAILURE -->
+  <BehaviorTree ID="RemoveStains">
+    <Fallback name="stain_handling">
+      <RetryUntilSuccessful num_attempts="3">
+        <ExecuteTask name="clean_stain" task="clean_stain" argument=""/>
+      </RetryUntilSuccessful>
+      <ForceFailure>
+        <ExecuteTask name="report_issue" task="report_issue" argument=""/>
+      </ForceFailure>
+    </Fallback>
+  </BehaviorTree>
+
+  <!-- Вибір ковдри залежно від сезону (значення {season} з Blackboard) -->
+  <BehaviorTree ID="ReplaceBlanket">
+    <Switch3 variable="{season}" case_1="winter" case_2="summer" case_3="autumn">
+      <ExecuteTask name="warm_duvet" task="replace_blanket" argument="warm_duvet"/>
+      <ExecuteTask name="light_blanket" task="replace_blanket" argument="light_blanket"/>
+      <ExecuteTask name="autumn_duvet" task="replace_blanket" argument="all_season_duvet"/>
+      <ExecuteTask name="spring_duvet" task="replace_blanket" argument="all_season_duvet"/>
+    </Switch3>
+  </BehaviorTree>
+
+</root>

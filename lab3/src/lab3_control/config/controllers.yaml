@@ -1,0 +1,28 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 20  # Гц -> період квантування T = 50 мс
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    p_controller:
+      type: lab3_control/PPositionController
+
+    p_controller_compensated:
+      type: lab3_control/PPositionController
+
+p_controller:
+  ros__parameters:
+    joint: joint1
+    kp: 5.0
+    target: 0.05
+    compensate: false
+    loop_delay: 0.15
+
+p_controller_compensated:
+  ros__parameters:
+    joint: joint1
+    kp: 5.0
+    target: 0.05
+    compensate: true
+    loop_delay: 0.15   # dt_actuation + dt_feedback = 100 + 50 мс
